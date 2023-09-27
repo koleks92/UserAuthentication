@@ -8,8 +8,7 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import { Colors } from './constants/styles';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import { useContext } from 'react';
-import AuthContent from './components/Auth/AuthContent';
-
+import IconButton from './components/ui/IconButton'
 const Stack = createNativeStackNavigator();
 
 function AuthStack() {
@@ -28,6 +27,8 @@ function AuthStack() {
 }
 
 function AuthenticatedStack() {
+  const authCtx = useContext(AuthContext);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -36,7 +37,9 @@ function AuthenticatedStack() {
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="Welcome" component={WelcomeScreen} options={{
+        headerRight: ({tintColor}) => <IconButton icon="exit" color={tintColor} onPress={authCtx.logout} size={26}/>
+      }}/>
     </Stack.Navigator>
   );
 }
